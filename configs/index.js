@@ -6,7 +6,7 @@ const {
 
 const CURRENT_JWT_SECRET = NODE_ENV === 'production' && JWT_SECRET ? JWT_SECRET : 'dev-secret';
 const CURRENT_PORT = NODE_ENV === 'production' && PORT ? PORT : 3000;
-const CURRENT_DATABASE_PATH = NODE_ENV === 'production' && DATABASE_PATH ? DATABASE_PATH : 'mongodb://localhost:27017/bitfilmsdb';
+const CURRENT_DATABASE_PATH = NODE_ENV === 'production' && DATABASE_PATH ? DATABASE_PATH : 'mongodb://localhost:27017/moviesdb';
 
 module.exports = {
   CURRENT_JWT_SECRET,

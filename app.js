@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+const limiter = require('./middlewares/limiter');
 const cors = require('./middlewares/cors');
 const router = require('./routes/index');
 const handleErrors = require('./middlewares/error');
@@ -12,11 +12,6 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { CURRENT_PORT, CURRENT_DATABASE_PATH } = require('./configs/index');
 
 const app = express();
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

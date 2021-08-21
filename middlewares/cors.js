@@ -1,6 +1,6 @@
 const allowedCors = [
-  'https://puolukka.nomoredomains.rocks',
-  'http://puolukka.nomoredomains.rocks',
+  'https://movies.explorer.nomoredomains.rocks',
+  'http://movies.explorer.nomoredomains.rocks',
   'http://localhost:3000',
 ];
 
