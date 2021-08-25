@@ -9,6 +9,8 @@ router.post('/signin', signinValidator, login);
 
 router.post('/signup', signupValidator, createUser);
 
+router.use('/', auth);
+
 router.use('/users', auth, require('./users'));
 
 router.use('/movies', auth, require('./movies'));
