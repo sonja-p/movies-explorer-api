@@ -3,7 +3,7 @@ const { login, createUser } = require('../controllers/users');
 const auth = require('../middlewares/auth');
 const { signupValidator, signinValidator } = require('../middlewares/validation');
 const { PAGE_NOT_FOUND } = require('../configs/error_messages');
-const { NOT_FOUND } = require('../configs/error_status_codes');
+const NotFoundError = require('../errors/not-found-error');
 
 router.post('/signin', signinValidator, login);
 
@@ -24,10 +24,8 @@ router.use('/logout', auth, (req, res) => {
   }).send({ message: 'Выход из учетной записи' });
 });
 
-router.use((req, res, next) => {
-  const error = new Error(PAGE_NOT_FOUND);
-  error.statusCode = NOT_FOUND;
-  next(error);
+router.use(() => {
+  throw new NotFoundError(PAGE_NOT_FOUND);
 });
 
 module.exports = router;

@@ -4,11 +4,9 @@ const {
   DATA_NOT_VALID_TO_CREATE_MOVIE,
   NO_RIGHT_TO_DELETE,
 } = require('../configs/error_messages');
-const {
-  BAD_REQUEST,
-  FORBIDDEN,
-  NOT_FOUND,
-} = require('../configs/error_status_codes');
+const { FORBIDDEN } = require('../configs/error_status_codes');
+const BadRequestError = require('../errors/bad-request-error');
+const NotFoundError = require('../errors/not-found-error');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
@@ -49,9 +47,7 @@ module.exports.createMovie = (req, res, next) => {
     .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        const error = new Error(DATA_NOT_VALID_TO_CREATE_MOVIE);
-        error.statusCode = BAD_REQUEST;
-        next(error);
+        next(new BadRequestError(DATA_NOT_VALID_TO_CREATE_MOVIE));
       } else {
         next(err);
       }
@@ -62,9 +58,7 @@ module.exports.removeMovieById = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        const error = new Error(MOVIE_NOT_FOUND);
-        error.statusCode = NOT_FOUND;
-        next(error);
+        next(new NotFoundError(MOVIE_NOT_FOUND));
       } else if (movie.owner.toString() !== req.user._id) {
         const error = new Error(NO_RIGHT_TO_DELETE);
         error.statusCode = FORBIDDEN;

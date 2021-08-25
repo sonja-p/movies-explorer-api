@@ -10,12 +10,10 @@ const {
   DATA_NOT_VALID_TO_UPDATE_PROFILE,
 } = require('../configs/error_messages');
 
-const {
-  BAD_REQUEST,
-  UNAUTHORIZED,
-  NOT_FOUND,
-  CONFLICT,
-} = require('../configs/error_status_codes');
+const BadRequestError = require('../errors/bad-request-error');
+const NotFoundError = require('../errors/not-found-error');
+const ConflictError = require('../errors/conflict-error');
+const UnauthorizedError = require('../errors/unauthorized-error');
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
@@ -33,9 +31,7 @@ module.exports.login = (req, res, next) => {
         .send({ message: 'Успешный вход в аккаунт' });
     })
     .catch(() => {
-      const error = new Error(WRONG_EMAIL_OR_PASSWORD);
-      error.statusCode = UNAUTHORIZED;
-      next(error);
+      next(new UnauthorizedError(WRONG_EMAIL_OR_PASSWORD));
     });
 };
 
@@ -43,18 +39,14 @@ module.exports.findCurrentUserById = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        const error = new Error(USER_NOT_FOUND);
-        error.statusCode = NOT_FOUND;
-        next(error);
+        next(new NotFoundError(USER_NOT_FOUND));
       }
       const { email, name } = user;
       return res.send({ email, name });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        const error = new Error(USER_NOT_FOUND);
-        error.statusCode = NOT_FOUND;
-        next(error);
+        next(new NotFoundError(USER_NOT_FOUND));
       } else {
         next(err);
       }
@@ -71,9 +63,7 @@ module.exports.createUser = (req, res, next) => {
   return User.findOne({ email })
     .then((user) => {
       if (user) {
-        const error = new Error(USER_EMAIL_NOT_VALID);
-        error.statusCode = CONFLICT;
-        next(error);
+        next(new ConflictError(USER_EMAIL_NOT_VALID));
       } else {
         User.create({
           email, password: hash, name,
@@ -84,13 +74,9 @@ module.exports.createUser = (req, res, next) => {
           }))
           .catch((err) => {
             if (err.name === 'MongoError' && err.code === 11000) {
-              const error = new Error(USER_EMAIL_NOT_VALID);
-              error.statusCode = CONFLICT;
-              next(error);
+              next(new ConflictError(USER_EMAIL_NOT_VALID));
             } else if (err.name === 'ValidationError') {
-              const error = new Error(DATA_NOT_VALID_TO_CREATE_USER);
-              error.statusCode = BAD_REQUEST;
-              next(error);
+              next(new BadRequestError(DATA_NOT_VALID_TO_CREATE_USER));
             } else {
               next(err);
             }
@@ -112,26 +98,18 @@ module.exports.updateProfile = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        const error = new Error(USER_NOT_FOUND);
-        error.statusCode = NOT_FOUND;
-        next(error);
+        next(new NotFoundError(USER_NOT_FOUND));
       } else {
         res.send({ email, name });
       }
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        const error = new Error(DATA_NOT_VALID_TO_UPDATE_PROFILE);
-        error.statusCode = BAD_REQUEST;
-        next(error);
+        next(new BadRequestError(DATA_NOT_VALID_TO_UPDATE_PROFILE));
       } else if (err.name === 'MongoError' && err.code === 11000) {
-        const error = new Error(USER_EMAIL_NOT_VALID);
-        error.statusCode = CONFLICT;
-        next(error);
+        next(new ConflictError(USER_EMAIL_NOT_VALID));
       } else if (!req.user._id) {
-        const error = new Error(USER_NOT_FOUND);
-        error.statusCode = NOT_FOUND;
-        next(error);
+        next(new NotFoundError(USER_NOT_FOUND));
       } else {
         next(err);
       }
