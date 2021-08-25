@@ -61,28 +61,21 @@ module.exports.createMovie = (req, res, next) => {
 module.exports.removeMovieById = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
-      const owner = movie.owner.toString();
       if (!movie) {
         const error = new Error(MOVIE_NOT_FOUND);
         error.statusCode = NOT_FOUND;
         next(error);
-      } else if (owner !== req.user._id) {
+      } else if (movie.owner.toString() !== req.user._id) {
         const error = new Error(NO_RIGHT_TO_DELETE);
         error.statusCode = FORBIDDEN;
         next(error);
       } else {
-        movie.delete();
-        res.status(200).send(movie);
+        return movie.delete()
+          .then(() => {
+            res.status(200).send(movie);
+          });
       }
+      return res;
     })
-
-    .catch((err) => {
-      if (err.name === 'TypeError') {
-        const error = new Error(MOVIE_NOT_FOUND);
-        error.statusCode = NOT_FOUND;
-        next(error);
-      } else {
-        next(err);
-      }
-    });
+    .catch((err) => next(err));
 };
