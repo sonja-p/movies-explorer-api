@@ -10,4 +10,5 @@ module.exports = {
   MOVIE_NOT_FOUND: 'Фильм с указанным _id не найден',
   DATA_NOT_VALID_TO_CREATE_MOVIE: 'Переданы некорректные данные в методы создания фильма',
   NO_RIGHT_TO_DELETE: 'У вас нет прав на удаление данного фильма',
+  INVALID_LINK_FORMAT: 'Неправильный формат ссылки',
 };

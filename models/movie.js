@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { INVALID_LINK_FORMAT } = require('../configs/error_messages');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -33,7 +34,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => /https?:\/\/(www.)?[\w-]*\.\w{2}\/?[a-z0-9\S]*/.test(v),
-      message: 'Неправильный формат ссылки',
+      message: INVALID_LINK_FORMAT,
     },
   },
   trailer: {
@@ -41,7 +42,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => /https?:\/\/(www.)?[\w-]*\.\w{2}\/?[a-z0-9\S]*/.test(v),
-      message: 'Неправильный формат ссылки',
+      message: INVALID_LINK_FORMAT,
     },
   },
   thumbnail: {
@@ -49,7 +50,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => /https?:\/\/(www.)?[\w-]*\.\w{2}\/?[a-z0-9\S]*/.test(v),
-      message: 'Неправильный формат ссылки',
+      message: INVALID_LINK_FORMAT,
     },
   },
   owner: {
