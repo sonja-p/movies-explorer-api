@@ -55,8 +55,9 @@ module.exports.findCurrentUserById = (req, res, next) => {
         const error = new Error(USER_NOT_FOUND);
         error.statusCode = NOT_FOUND;
         next(error);
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -86,13 +87,13 @@ module.exports.createUser = (req, res, next) => {
               const error = new Error(USER_EMAIL_NOT_VALID);
               error.statusCode = CONFLICT;
               next(error);
-            }
-            if (err.name === 'ValidationError') {
+            } else if (err.name === 'ValidationError') {
               const error = new Error(DATA_NOT_VALID_TO_CREATE_USER);
               error.statusCode = BAD_REQUEST;
               next(error);
+            } else {
+              next(err);
             }
-            next(err);
           });
       }
     });
@@ -123,12 +124,16 @@ module.exports.updateProfile = (req, res, next) => {
         const error = new Error(DATA_NOT_VALID_TO_UPDATE_PROFILE);
         error.statusCode = BAD_REQUEST;
         next(error);
-      }
-      if (!req.user._id) {
+      } else if (err.name === 'MongoError' && err.code === 11000) {
+        const error = new Error(USER_EMAIL_NOT_VALID);
+        error.statusCode = CONFLICT;
+        next(error);
+      } else if (!req.user._id) {
         const error = new Error(USER_NOT_FOUND);
         error.statusCode = NOT_FOUND;
         next(error);
+      } else {
+        next(err);
       }
-      next(err);
     });
 };

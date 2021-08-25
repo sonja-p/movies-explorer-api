@@ -52,8 +52,9 @@ module.exports.createMovie = (req, res, next) => {
         const error = new Error(DATA_NOT_VALID_TO_CREATE_MOVIE);
         error.statusCode = BAD_REQUEST;
         next(error);
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -80,7 +81,8 @@ module.exports.removeMovieById = (req, res, next) => {
         const error = new Error(MOVIE_NOT_FOUND);
         error.statusCode = NOT_FOUND;
         next(error);
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
