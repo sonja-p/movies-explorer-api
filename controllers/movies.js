@@ -4,7 +4,7 @@ const {
   DATA_NOT_VALID_TO_CREATE_MOVIE,
   NO_RIGHT_TO_DELETE,
 } = require('../configs/error_messages');
-const { FORBIDDEN } = require('../configs/error_status_codes');
+const ForbiddenError = require('../errors/forbidden-error');
 const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-error');
 
@@ -60,9 +60,7 @@ module.exports.removeMovieById = (req, res, next) => {
       if (!movie) {
         next(new NotFoundError(MOVIE_NOT_FOUND));
       } else if (movie.owner.toString() !== req.user._id) {
-        const error = new Error(NO_RIGHT_TO_DELETE);
-        error.statusCode = FORBIDDEN;
-        next(error);
+        next(new ForbiddenError(NO_RIGHT_TO_DELETE));
       } else {
         return movie.delete()
           .then(() => {
