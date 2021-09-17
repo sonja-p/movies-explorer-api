@@ -1,5 +1,5 @@
-const { INTERNAL_SERVER_ERROR } = require('../configs/error_status_codes');
-const { SERVER_ERROR_MESSAGE } = require('../configs/error_messages');
+const { INTERNAL_SERVER_ERROR } = require('../configs/status_codes');
+const { SERVER_ERROR_MESSAGE } = require('../configs/messages');
 
 module.exports = (err, req, res, next) => {
   const { statusCode = INTERNAL_SERVER_ERROR, message } = err;

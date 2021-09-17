@@ -3,7 +3,8 @@ const {
   MOVIE_NOT_FOUND,
   DATA_NOT_VALID_TO_CREATE_MOVIE,
   NO_RIGHT_TO_DELETE,
-} = require('../configs/error_messages');
+} = require('../configs/messages');
+const { OK } = require('../configs/status_codes');
 const ForbiddenError = require('../errors/forbidden-error');
 const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-error');
@@ -64,7 +65,7 @@ module.exports.removeMovieById = (req, res, next) => {
       } else {
         return movie.delete()
           .then(() => {
-            res.status(200).send(movie);
+            res.status(OK).send(movie);
           });
       }
       return res;

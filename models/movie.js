@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { INVALID_LINK_FORMAT } = require('../configs/error_messages');
+const { INVALID_LINK_FORMAT } = require('../configs/messages');
 
 const movieSchema = new mongoose.Schema({
   country: {

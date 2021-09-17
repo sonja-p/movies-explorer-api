@@ -8,7 +8,8 @@ const {
   USER_EMAIL_NOT_VALID,
   DATA_NOT_VALID_TO_CREATE_USER,
   DATA_NOT_VALID_TO_UPDATE_PROFILE,
-} = require('../configs/error_messages');
+  SUCCESSFUL_LOGIN,
+} = require('../configs/messages');
 
 const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-error');
@@ -28,7 +29,7 @@ module.exports.login = (req, res, next) => {
           sameSite: 'None',
           // secure: true,
         })
-        .send({ message: 'Успешный вход в аккаунт' });
+        .send({ message: SUCCESSFUL_LOGIN });
     })
     .catch(() => {
       next(new UnauthorizedError(WRONG_EMAIL_OR_PASSWORD));

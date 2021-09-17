@@ -11,4 +11,8 @@ module.exports = {
   DATA_NOT_VALID_TO_CREATE_MOVIE: 'Переданы некорректные данные в методы создания фильма',
   NO_RIGHT_TO_DELETE: 'У вас нет прав на удаление данного фильма',
   INVALID_LINK_FORMAT: 'Неправильный формат ссылки',
+  INVALID_EMAIL_FORMAT: 'Неправильный формат почты',
+
+  EXIT_COMPLETED: 'Выход из учетной записи',
+  SUCCESSFUL_LOGIN: 'Успешный вход в аккаунт',
 };

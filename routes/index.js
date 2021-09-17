@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { login, createUser } = require('../controllers/users');
 const auth = require('../middlewares/auth');
 const { signupValidator, signinValidator } = require('../middlewares/validation');
-const { PAGE_NOT_FOUND } = require('../configs/error_messages');
+const { PAGE_NOT_FOUND, EXIT_COMPLETED } = require('../configs/messages');
 const NotFoundError = require('../errors/not-found-error');
 
 router.post('/signin', signinValidator, login);
@@ -21,7 +21,7 @@ router.use('/logout', auth, (req, res) => {
     httpOnly: true,
     sameSite: 'None',
     secure: true,
-  }).send({ message: 'Выход из учетной записи' });
+  }).send({ message: EXIT_COMPLETED });
 });
 
 router.use(() => {
