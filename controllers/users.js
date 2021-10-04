@@ -8,7 +8,7 @@ const {
   USER_EMAIL_NOT_VALID,
   DATA_NOT_VALID_TO_CREATE_USER,
   DATA_NOT_VALID_TO_UPDATE_PROFILE,
-  SUCCESSFUL_LOGIN,
+  // SUCCESSFUL_LOGIN,
 } = require('../configs/messages');
 
 const BadRequestError = require('../errors/bad-request-error');
@@ -27,9 +27,13 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600000,
           httpOnly: true,
           sameSite: 'None',
-          // secure: true,
+          secure: true,
         })
-        .send({ message: SUCCESSFUL_LOGIN });
+        .send({
+          // message: SUCCESSFUL_LOGIN,
+          email: user.email,
+          name: user.name,
+        });
     })
     .catch(() => {
       next(new UnauthorizedError(WRONG_EMAIL_OR_PASSWORD));
