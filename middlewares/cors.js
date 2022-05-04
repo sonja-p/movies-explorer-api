@@ -1,6 +1,6 @@
 const allowedCors = [
-  'https://movies.explorer.nomoredomains.rocks',
-  'http://movies.explorer.nomoredomains.rocks',
+  'https://movies-explorer.nomoredomains.space',
+  'http://movies-explorer.nomoredomains.space',
   'http://localhost:3000',
 ];
 const { NO_CONTENT } = require('../configs/status_codes');
