@@ -17,9 +17,9 @@ API для аутентификации пользователей и сохра
 
 ## Ссылки
 
-* Ссылка на проект MoviesExplorer, размещенный на Яндекс.Облаке - <https://movies.explorer.nomoredomains.rocks>
-* Доменное имя api - <https://api.movies.explorer.nomoredomains.rocks>
-* Публичный IP-адрес сервера - <http://84.252.139.226/>
+* Ссылка на проект MoviesExplorer, размещенный на Яндекс.Облаке - <https://movies-explorer.nomoredomains.space>
+* Доменное имя api - <https://api.movies-explorer.nomoredomains.space>
+* Публичный IP-адрес сервера - <http://51.250.105.145/>
 
 ---
 
